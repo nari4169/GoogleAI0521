@@ -2,14 +2,15 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
+    id("com.google.devtools.ksp") version libs.versions.ksp.get()
 }
 
 android {
-    namespace = "com.example.googleai0521"
+    namespace = "com.billcorea.googleai0521"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.googleai0521"
+        applicationId = "com.billcorea.googleai0521"
         minSdk = 31
         targetSdk = 34
         versionCode = 1
@@ -72,4 +73,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // https://github.com/raamcosta/compose-destinations 에서 최종 버전을 확인
+    implementation(libs.core)
+    ksp(libs.ksp)
+    implementation (libs.animations.core)
+    implementation (libs.wear.core)
 }

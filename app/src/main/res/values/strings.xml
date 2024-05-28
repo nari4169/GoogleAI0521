@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">GoogleAI0521</string>
+    <string name="app_name">Shapes with Gemini</string>
     <string name="action_go">Go</string>
-    <string name="baking_title">Baking with Gemini</string>
+    <string name="baking_title">Shapes with Gemini</string>
     <string name="label_prompt">Prompt</string>
-    <string name="prompt_placeholder">Provide a recipe for the baked goods in the image.  Please answer in Korean</string>
+    <string name="prompt_placeholder">Look at this sequence of three shapes. What shape should come as the fourth shape? Explain your reasoning with detailed descriptions of the first shapes.  Please answer in Korean</string>
     <string name="image1_description">Cupcake</string>
     <string name="image2_description">Cookies</string>
     <string name="image3_description">Cake</string>
