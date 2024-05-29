@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">그림 그리기</string>
+    <string name="action_go">요청</string>
+    <string name="baking_title">그림 맞추기</string>
+    <string name="image1_description">컵케이크</string>
+    <string name="image2_description">쿠키</string>
+    <string name="image3_description">케이크</string>
+    <string name="results_placeholder">(결과는 여기에)</string>
+    <string name="msgStartDrag">(그림 그리기 시작 위치)</string>
+    <string name="baking_description">다음에 제시되는 그림 3개을 보고 그 다음에 출현할 것 같은 그림을 맞쳐 주세요</string>
+    <string name="prompt_answer">당신의 응답을 입력 하세요</string>
+    <string name="label_answer">당신의 응답</string>
+</resources>

@@ -1,12 +1,15 @@
 <resources>
     <string name="app_name">Shapes with Gemini</string>
     <string name="action_go">Go</string>
-    <string name="baking_title">Shapes with Gemini</string>
-    <string name="label_prompt">Prompt</string>
-    <string name="prompt_placeholder">Look at this sequence of three shapes. What shape should come as the fourth shape? Explain your reasoning with detailed descriptions of the first shapes.  Please answer in Korean</string>
+    <string name="baking_title">Guess the picture with Gemini</string>
+    <string name="label_prompt" translatable="false">Prompt</string>
+    <string name="prompt_placeholder" translatable="false">Look at this sequence of three shapes. What shape should come as the fourth shape? Explain your reasoning with detailed descriptions of the first shapes. Please tell me if my answer matches your thoughts and explain why.</string>
     <string name="image1_description">Cupcake</string>
     <string name="image2_description">Cookies</string>
     <string name="image3_description">Cake</string>
     <string name="results_placeholder">(Results will appear here)</string>
-    <string name="msgStartDrag">Start Drag Here</string>
+    <string name="msgStartDrag">(Start Drag Here)</string>
+    <string name="baking_description">Look at the three pictures presented below and guess which picture will appear next.</string>
+    <string name="prompt_answer">Please enter your answer.</string>
+    <string name="label_answer">Your Answer</string>
 </resources>

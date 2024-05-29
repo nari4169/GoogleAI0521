@@ -3,7 +3,6 @@ package com.billcorea.googleai0521
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.billcorea.googleai0521.BuildConfig
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.Dispatchers
@@ -24,12 +23,13 @@ class BakingViewModel : ViewModel() {
 
     private val generativeModel = GenerativeModel(
         modelName = "gemini-pro-vision",
-        apiKey = BuildConfig.apiKey
+        apiKey = BuildConfig.AUTH_INFO
     )
 
     fun sendPrompt(
         bitmaps: Array<Bitmap>,
-        prompt: String
+        prompt: String,
+        answer: String
     ) {
         _uiState.value = UiState.Loading
 
@@ -40,7 +40,8 @@ class BakingViewModel : ViewModel() {
                         image(bitmaps[0])
                         image(bitmaps[1])
                         image(bitmaps[2])
-                        text(prompt)
+                        text("$prompt Please answer in Korean.")
+                        text("My answer is:$answer")
                     }
                 )
                 response.text?.let { outputContent ->

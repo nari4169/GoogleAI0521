@@ -1,12 +1,16 @@
 package com.billcorea.googleai0521
 
+import android.content.Context
 import android.graphics.BitmapFactory
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,6 +24,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -40,13 +45,14 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import com.billcorea.googleai0521.R
+import com.billcorea.googleai0521.ui.theme.typography
 import com.ramcosta.composedestinations.annotation.Destination
 
 
@@ -74,21 +80,37 @@ fun BakingScreen(
     val selectedImage = remember { mutableIntStateOf(0) }
     val placeholderPrompt = stringResource(R.string.prompt_placeholder)
     val placeholderResult = stringResource(R.string.results_placeholder)
+    val answerPrompt = stringResource(R.string.prompt_answer)
     var prompt by rememberSaveable { mutableStateOf(placeholderPrompt) }
+    var answer by rememberSaveable { mutableStateOf("") }
     var result by rememberSaveable { mutableStateOf(placeholderResult) }
     val uiState by bakingViewModel.uiState.collectAsState()
     val context = LocalContext.current
     val state = rememberLazyListState()
+    val valWindowToken = LocalView.current.windowToken
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
         item {
-            Text(
-                text = stringResource(R.string.baking_title),
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(16.dp)
-            )
+            Column (
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = stringResource(R.string.baking_title),
+                    style = typography.titleLarge,
+                    modifier = Modifier.padding(16.dp)
+                )
+                Text(
+                    text = stringResource(R.string.baking_description),
+                    style = typography.bodyMedium,
+                    modifier = Modifier.padding(3.dp)
+                )
+
+            }
         }
 
         item {
@@ -103,6 +125,9 @@ fun BakingScreen(
                         .combinedClickable(
                             onClick = {
                                 selectedImage.intValue = index
+                            },
+                            onDoubleClick = {
+                                doGetPicture(index)
                             },
                             onLongClick = {
                                 doGetPicture(index)
@@ -147,29 +172,46 @@ fun BakingScreen(
                 Button(
                     onClick = {
 
+                        imm.hideSoftInputFromWindow(valWindowToken, 0)
+
                         for(ix in 0 .. 2) {
                             val bitmap = BitmapFactory.decodeResource(
                                 context.resources,
-                                images[selectedImage.intValue]
+                                images[ix]
                             )
                             if (!bakingViewModel.beforeTy[ix]) {
                                 bakingViewModel.bitmaps[ix] = bitmap
                             }
                         }
-                        bakingViewModel.sendPrompt(bakingViewModel.bitmaps, prompt)
+                        if (answer.isEmpty()) answer = "Empty"
+                        bakingViewModel.sendPrompt(bakingViewModel.bitmaps, prompt, answer)
                     },
                     enabled = prompt.isNotEmpty(),
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
                 ) {
-                    Text(text = stringResource(R.string.action_go))
+                    Text(text = stringResource(R.string.action_go), style = typography.bodyMedium.copy(color= Color.White))
                 }
             }
         }
 
         item {
+            OutlinedTextField(
+                value = answer,
+                onValueChange = {
+                    answer = it
+                },
+                label = { Text(stringResource(R.string.label_answer)) },
+                placeholder = { Text(stringResource(R.string.prompt_answer)) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(3.dp)
+            )
+        }
+
+        item {
             if (uiState is UiState.Loading) {
-                CircularProgressIndicator(modifier = Modifier.wrapContentHeight())
+                CircularProgressIndicator(modifier = Modifier.fillMaxSize())
             } else {
                 var textColor = MaterialTheme.colorScheme.onSurface
                 if (uiState is UiState.Error) {
