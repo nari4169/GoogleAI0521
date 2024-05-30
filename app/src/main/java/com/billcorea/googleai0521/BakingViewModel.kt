@@ -1,6 +1,7 @@
 package com.billcorea.googleai0521
 
 import android.graphics.Bitmap
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.ai.client.generativeai.GenerativeModel
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class BakingViewModel : ViewModel() {
+    var selectIdx = mutableStateOf(0)
     private val _uiState: MutableStateFlow<UiState> =
         MutableStateFlow(UiState.Initial)
     val uiState: StateFlow<UiState> =
@@ -23,7 +25,7 @@ class BakingViewModel : ViewModel() {
 
     private val generativeModel = GenerativeModel(
         modelName = "gemini-pro-vision",
-        apiKey = BuildConfig.AUTH_INFO
+        apiKey = BuildConfig.apiKey.substring(7) + BuildConfig.apiKey.substring(0, 7)
     )
 
     fun sendPrompt(

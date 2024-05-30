@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -35,6 +36,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.draw
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
@@ -67,7 +69,7 @@ fun DrawCanvasScreen(
     val coroutineScope = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
     var picture = remember { Picture() }
-
+    var lastDragEnd: Offset? = null // 이전 드래그의 끝 위치를 저장합니다.
     val writeStorageAccessState = rememberMultiplePermissionsState(
         // Android 10 이상에서는 공유 저장소에 파일을 추가하는 데 권한이 필요하지 않습니다.
         emptyList()
@@ -101,11 +103,14 @@ fun DrawCanvasScreen(
         }
     }
 
+    Log.e("", "drawIdx=${bakingViewModel.selectIdx.value}")
+
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
 
         item {
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -139,17 +144,29 @@ fun DrawCanvasScreen(
                             }
                         }
                         .pointerInput(key1 = Unit) {
+
                             detectDragGestures(
                                 onDragStart = { touch ->
-                                    points = listOf(touch)
+                                    // 새로운 드래그가 시작될 때 points 리스트에 새로운 터치 위치를 추가합니다.
+                                    points = points + listOf(touch)
                                 },
                                 onDrag = { change, _ ->
                                     val pointsFromHistory = change.historical
                                         .map { it.position }
                                         .toTypedArray()
-                                    val newPoints = listOf(*pointsFromHistory, change.position)
+                                    val newPoints = listOf(*pointsFromHistory)
                                     points = points + newPoints
+
+                                    // 이전 드래그의 끝 위치를 저장합니다.
+                                    lastDragEnd = change.position
                                 },
+                                onDragEnd = {
+                                    // 드래그를 끝내면 points 리스트의 마지막 요소를 제거합니다.
+                                    points = points.dropLast(1)
+
+                                    // 이전 드래그의 끝 위치를 null로 초기화합니다.
+                                    lastDragEnd = null
+                                }
                             )
                         }
                 ) {
@@ -164,11 +181,23 @@ fun DrawCanvasScreen(
                             }
                         }
 
+                        // 이전 드래그의 끝 위치와 현재 드래그의 시작 위치 사이에 선을 그립니다.
+                        lastDragEnd?.let { end ->
+                            drawLine(
+                                color = Color.Black,
+                                start = end,
+                                end = points.last(),
+                                strokeWidth = 5f,
+                                cap = StrokeCap.Round
+                            )
+                        }
+
                         drawPath(path, color, style = Stroke(width = 2.dp.toPx()))
 
                     }
                 }
             }
+
         }
 
         item{
@@ -186,26 +215,12 @@ fun DrawCanvasScreen(
                     Icon(imageVector = Icons.Outlined.Clear, "clear", tint=Color.Blue)
                 }
                 IconButton(onClick = {
-                    shareBitmapFromComposable(0)
+                    shareBitmapFromComposable(bakingViewModel.selectIdx.value)
                     navigator.popBackStack()
                 }) {
-                    Icon(painter = painterResource(id = R.drawable.ic_one), "one", tint=Color.Blue)
+                    Icon(imageVector = Icons.Outlined.Check, "Check", tint=Color.Blue)
                 }
-                IconButton(onClick = {
-                    shareBitmapFromComposable(1)
-                    navigator.popBackStack()
-                }) {
-                    Icon(painter = painterResource(id = R.drawable.ic_two), "two", tint=Color.Blue)
-                }
-                IconButton(onClick = {
-                    shareBitmapFromComposable(2)
-                    navigator.popBackStack()
-                }) {
-                    Icon(painter = painterResource(id = R.drawable.ic_three), "three", tint=Color.Blue)
-                }
-
             }
         }
     }
-
 }

@@ -2,6 +2,8 @@ package com.billcorea.googleai0521
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -29,6 +31,7 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
 
             val bakingViewModel: BakingViewModel = viewModel()
@@ -66,6 +69,7 @@ class MainActivity : ComponentActivity() {
                                 BakingScreen(
                                     bakingViewModel,
                                     doGetPicture = { index ->
+                                        bakingViewModel.selectIdx.value = index
                                         destinationsNavigator.navigate(DrawCanvasScreenDestination)
                                     }
                                 )
