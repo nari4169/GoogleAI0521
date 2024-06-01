@@ -54,6 +54,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.billcorea.googleai0521.ui.theme.typography
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 
 
 val images = arrayOf(
@@ -71,7 +72,7 @@ val imageDescriptions = arrayOf(
 )
 
 @OptIn(ExperimentalFoundationApi::class)
-@Destination(start=true)
+@Destination(start = true)
 @Composable
 fun BakingScreen(
     bakingViewModel: BakingViewModel,
@@ -163,6 +164,7 @@ fun BakingScreen(
                     value = prompt,
                     label = { Text(stringResource(R.string.label_prompt)) },
                     onValueChange = { prompt = it },
+                    maxLines = 3,
                     modifier = Modifier
                         .weight(0.8f)
                         .padding(end = 16.dp)

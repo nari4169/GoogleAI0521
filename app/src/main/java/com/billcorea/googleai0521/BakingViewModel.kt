@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.billcorea.googleai0521.utils.AesCryptor
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +26,7 @@ class BakingViewModel : ViewModel() {
 
     private val generativeModel = GenerativeModel(
         modelName = "gemini-pro-vision",
-        apiKey = BuildConfig.apiKey.substring(7) + BuildConfig.apiKey.substring(0, 7)
+        apiKey = AesCryptor.decrypt(BuildConfig.apiKey)
     )
 
     fun sendPrompt(
