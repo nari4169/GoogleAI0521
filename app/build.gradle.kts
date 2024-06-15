@@ -1,3 +1,6 @@
+import com.android.build.gradle.internal.ide.dependencies.ArtifactCollectionsInputs
+import org.jetbrains.kotlin.com.intellij.psi.compiled.ClassFileDecompilers.Full
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -11,10 +14,10 @@ android {
 
     defaultConfig {
         applicationId = "com.billcorea.googleai0521"
-        minSdk = 31
+        minSdk = 29
         targetSdk = 34
-        versionCode = 6
-        versionName = "0.0.6"
+        versionCode = 8
+        versionName = "0.0.8"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -22,6 +25,7 @@ android {
         }
     }
 
+    // android.buildTypes.release.ndk.debugSymbolLevel = { SYMBOL_TABLE | FULL }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -29,6 +33,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            ndk.debugSymbolLevel = "full"
         }
     }
     compileOptions {
@@ -66,6 +71,12 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.generativeai)
     implementation(libs.androidx.foundation.android)
+    // This dependency is downloaded from the Google’s Maven repository.
+    // So, make sure you also include that repository in your project's build.gradle file.
+    implementation(libs.app.update)
+    // For Kotlin users also import the Kotlin extensions library for Play In-App Update:
+    implementation(libs.app.update.ktx)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -79,4 +90,5 @@ dependencies {
     ksp(libs.ksp)
     implementation (libs.animations.core)
     implementation (libs.wear.core)
+
 }

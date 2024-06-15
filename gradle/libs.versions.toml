@@ -1,25 +1,28 @@
 [versions]
 accompanistPermissionsVersion = "0.35.1-alpha"
-agp = "8.5.0-alpha08"
+agp = "8.6.0-alpha04"
 animationsCoreVersion = "1.10.2"
+appUpdateVersion = "2.1.0"
 kotlin = "1.9.23"
 ksp = "1.9.23-1.0.19"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
-lifecycleRuntimeKtx = "2.8.0"
-lifecycleViewmodelCompose = "2.8.0"
+lifecycleRuntimeKtx = "2.8.2"
+lifecycleViewmodelCompose = "2.8.2"
 activityCompose = "1.9.0"
-composeBom = "2024.05.00"
-generativeai = "0.6.0"
+composeBom = "2024.06.00"
+generativeai = "0.8.0"
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
-foundationAndroidVersion = "1.6.7"
+foundationAndroidVersion = "1.6.8"
 wearCoreVersion = "1.10.2"
+appUpdateKtxVersion = "2.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 animations-core = { module = "io.github.raamcosta.compose-destinations:animations-core", version.ref = "animationsCoreVersion" }
+app-update = { module = "com.google.android.play:app-update", version.ref = "appUpdateVersion" }
 core = { module = "io.github.raamcosta.compose-destinations:core", version.ref = "animationsCoreVersion" }
 google-accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissionsVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -40,6 +43,7 @@ generativeai = { group = "com.google.ai.client.generativeai", name = "generative
 androidx-foundation-android = { group = "androidx.compose.foundation", name = "foundation-android", version.ref = "foundationAndroidVersion" }
 ksp = { module = "io.github.raamcosta.compose-destinations:ksp", version.ref = "animationsCoreVersion" }
 wear-core = { module = "io.github.raamcosta.compose-destinations:wear-core", version.ref = "wearCoreVersion" }
+app-update-ktx = { group = "com.google.android.play", name = "app-update-ktx", version.ref = "appUpdateKtxVersion" }
 
 [plugins]
 googleKsp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

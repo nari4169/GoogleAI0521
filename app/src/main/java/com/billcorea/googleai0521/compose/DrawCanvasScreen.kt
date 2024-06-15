@@ -42,10 +42,9 @@ import androidx.compose.ui.graphics.drawscope.draw
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.billcorea.googleai0521.BakingViewModel
+import com.billcorea.googleai0521.baking.BakingViewModel
 import com.billcorea.googleai0521.R
 import com.billcorea.googleai0521.ui.theme.typography
 import com.google.accompanist.permissions.ExperimentalPermissionsApi

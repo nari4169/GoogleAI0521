@@ -12,4 +12,30 @@
     <string name="baking_description">Look at the three pictures presented below and guess which picture will appear next.</string>
     <string name="prompt_answer">Please enter your answer.</string>
     <string name="label_answer">Your Answer</string>
+    <string name="battleship_title">Text BattleShip</string>
+    <string name="battleship_description">
+        This game is a strategy game between you and me. Place your battleships on the 5x5 table.
+        Coordinates are from 0, 0 to 4,4. And you shouldn\'t say that. Like you,
+        I plan to place my battleship in a certain place in my mind.
+        Now you and I are going to play a game of guessing where it is.
+        I tell you the expected position and you only give me a hint as to where it deviates from where you thought it would be.
+        This is a game where the first person to find the location you and I were thinking of using the hints wins.
+        Questions and answers must be asked alternately.
+        You are ready ?</string>
+    <string name="answerPrompt" translatable="false">I will tell you my answer.
+ But now tell me how wrong my answer was compared to your battleship location.
+ Please tell me what you think about the location of my battleship.
+ Your answer should only explain the differences between your battleship\'s location and my guess.
+ Unless you specify the exact location of the battleship.
+ And if you guess the location of my battleship, I will also explain the location of my battleship and other details.
+ If my guess is correct on your battleship\'s location, I can tell you that it is correct.
+ If my guess is correct, I will tell you that it is also correct.
+ Once the coordinates are set they should not be changed until I explain them correctly. If my answer is wrong, please explain the difference from the location you thought and I will try to guess the location of the battleship.
+ The guess must be in the range 0,0 to 4,4 so if it\'s outside that range, tell me I\'m wrong.
+        You shouldn\'t deploy battleships out of range either.
+    </string>
+    <string name="comparsion_title">Image Comparison</string>
+    <string name="comparsion_description">Could you compare the left and right sides of the picture I am showing and explain the differences?</string>
+    <string name="prompt_comparison" translatable="false">I will send you an image with two picture. Please look at this and give me a detailed explanation of the differences between the two picture.</string>
+    <string name="update_available">Update Available</string>
 </resources>
