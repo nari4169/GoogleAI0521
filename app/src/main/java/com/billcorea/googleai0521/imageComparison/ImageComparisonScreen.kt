@@ -141,7 +141,7 @@ fun ImageComparisonScreen (
             ) {
                 val imageModifier = Modifier
                     .padding(start = 8.dp, end = 8.dp)
-                    .width(screenWidth.dp /  2 * .8f)
+                    .width(screenWidth.dp / 2 * .8f)
                     .height(screenWidth.dp / 2 * .8f)
 
                 val leftModifier = imageModifier.combinedClickable(
@@ -213,19 +213,28 @@ fun ImageComparisonScreen (
 
         item {
             Row(
-                modifier = Modifier.padding(all = 16.dp)
+                modifier = Modifier.padding(all = 16.dp),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                TextField(
-                    value = prompt,
-                    label = { Text(stringResource(R.string.label_prompt)) },
-                    onValueChange = { prompt = it },
-                    maxLines = 3,
+//                TextField(
+//                    value = prompt,
+//                    label = { Text(stringResource(R.string.label_prompt)) },
+//                    onValueChange = { prompt = it },
+//                    maxLines = 3,
+//                    modifier = Modifier
+//                        .weight(0.8f)
+//                        .padding(end = 16.dp)
+//                        .align(Alignment.CenterVertically)
+//                )
+                Text(
+                    String.format("%s: %s", stringResource(R.string.label_prompt), prompt),
+                    style = typography.bodyMedium,
                     modifier = Modifier
                         .weight(0.8f)
                         .padding(end = 16.dp)
                         .align(Alignment.CenterVertically)
                 )
-
                 Button(
                     onClick = {
                         imm.hideSoftInputFromWindow(valWindowToken, 0)

@@ -1,6 +1,3 @@
-import com.android.build.gradle.internal.ide.dependencies.ArtifactCollectionsInputs
-import org.jetbrains.kotlin.com.intellij.psi.compiled.ClassFileDecompilers.Full
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -16,8 +13,8 @@ android {
         applicationId = "com.billcorea.googleai0521"
         minSdk = 29
         targetSdk = 34
-        versionCode = 8
-        versionName = "0.0.8"
+        versionCode = 9
+        versionName = "0.0.9"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
