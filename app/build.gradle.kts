@@ -100,4 +100,7 @@ dependencies {
     implementation(libs.glide)
     ksp(libs.glide.ksp)
 
+    // ML Kit translate
+    implementation (libs.translate)
+
 }

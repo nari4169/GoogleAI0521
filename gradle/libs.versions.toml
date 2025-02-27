@@ -26,6 +26,7 @@ googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 foundationAndroidVersion = "1.7.8"
 protobufJavaVersion = "3.25.3"
 retrofitVersion = "2.9.0"
+translateVersion = "17.0.3"
 wearCoreVersion = "1.11.7"
 appUpdateKtxVersion = "2.1.0"
 
@@ -63,6 +64,7 @@ androidx-foundation-android = { group = "androidx.compose.foundation", name = "f
 ksp = { module = "io.github.raamcosta.compose-destinations:ksp", version.ref = "animationsCoreVersion" }
 protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protobufJavaVersion" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
+translate = { module = "com.google.mlkit:translate", version.ref = "translateVersion" }
 wear-core = { module = "io.github.raamcosta.compose-destinations:wear-core", version.ref = "wearCoreVersion" }
 app-update-ktx = { group = "com.google.android.play", name = "app-update-ktx", version.ref = "appUpdateKtxVersion" }
 

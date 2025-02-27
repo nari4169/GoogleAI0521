@@ -160,7 +160,7 @@ fun ColoringScreen (
 
                 Button(
                     onClick = {
-                        bakingViewModel.doGetOpenAI2Image(answer)
+                        bakingViewModel.doGetOpenAI2Image(context, answer)
                     },
                     enabled = answer.isNotEmpty(),
                     modifier = Modifier
@@ -175,7 +175,8 @@ fun ColoringScreen (
             if (uiState is UiState.Loading) {
                 CircularProgressIndicator(modifier = Modifier.fillMaxSize())
             } else {
-                bitmap?.let { it ->
+                bitmap?.let {
+                    bakingViewModel._uiState.value = UiState.Success("Image loaded")
                     Image(
                         bitmap = it.asImageBitmap(),
                         contentDescription = "bitMap",
@@ -189,6 +190,7 @@ fun ColoringScreen (
                     )
 
                 } ?: run {
+                    bakingViewModel._uiState.value = UiState.Error("No image found")
                     Text(text = stringResource(R.string.results_placeholder), style = typography.bodyMedium)
                 }
             }
