@@ -3,10 +3,12 @@ package com.billcorea.googleai0521
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,30 +19,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.billcorea.googleai0521.baking.BakingScreen
-import com.billcorea.googleai0521.baking.BakingViewModel
+import com.billcorea.googleai0521.viewModels.BakingViewModel
 import com.billcorea.googleai0521.battleship.BattleShipScreen
+import com.billcorea.googleai0521.colorring.ColoringScreen
 import com.billcorea.googleai0521.compose.DrawCanvasScreen
 import com.billcorea.googleai0521.compose.DrawCanvasScreen2
 import com.billcorea.googleai0521.compose.TopScreen
 import com.billcorea.googleai0521.destinations.BakingScreenDestination
 import com.billcorea.googleai0521.destinations.BattleShipScreenDestination
+import com.billcorea.googleai0521.destinations.ColoringScreenDestination
 import com.billcorea.googleai0521.destinations.DrawCanvasScreen2Destination
 import com.billcorea.googleai0521.destinations.DrawCanvasScreenDestination
 import com.billcorea.googleai0521.destinations.ImageComparisonScreenDestination
 import com.billcorea.googleai0521.imageComparison.ImageComparisonScreen
 import com.billcorea.googleai0521.ui.theme.GoogleAI0521Theme
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
-import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
 
+    @RequiresApi(Build.VERSION_CODES.S)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-    @OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalAnimationApi::class)
+    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enableEdgeToEdge()
 
         setContent {
 
@@ -82,7 +87,7 @@ class MainActivity : ComponentActivity() {
                                 BakingScreen(
                                     bakingViewModel,
                                     doGetPicture = { index ->
-                                        bakingViewModel.selectIdx.value = index
+                                        bakingViewModel.selectIdx.intValue = index
                                         destinationsNavigator.navigate(DrawCanvasScreenDestination)
                                     },
                                 )
@@ -91,6 +96,9 @@ class MainActivity : ComponentActivity() {
                                 BattleShipScreen(bakingViewModel) {
 
                                 }
+                            }
+                            composable(ColoringScreenDestination) {
+                                ColoringScreen(bakingViewModel)
                             }
                             composable(ImageComparisonScreenDestination) {
                                 ImageComparisonScreen(

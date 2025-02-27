@@ -3,16 +3,17 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
     id("com.google.devtools.ksp") version libs.versions.ksp.get()
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
     namespace = "com.billcorea.googleai0521"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.billcorea.googleai0521"
         minSdk = 29
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 9
         versionName = "0.0.9"
 
@@ -87,5 +88,9 @@ dependencies {
     ksp(libs.ksp)
     implementation (libs.animations.core)
     implementation (libs.wear.core)
+
+    // Retrofit
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
 
 }

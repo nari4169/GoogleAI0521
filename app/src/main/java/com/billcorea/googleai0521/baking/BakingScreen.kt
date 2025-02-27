@@ -21,16 +21,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -59,8 +54,8 @@ import androidx.compose.ui.unit.dp
 import com.billcorea.googleai0521.R
 import com.billcorea.googleai0521.UiState
 import com.billcorea.googleai0521.compose.InAppUpdate
-import com.billcorea.googleai0521.ui.theme.softBlue
 import com.billcorea.googleai0521.ui.theme.typography
+import com.billcorea.googleai0521.viewModels.BakingViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 
 

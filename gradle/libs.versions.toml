@@ -1,30 +1,43 @@
 [versions]
-accompanistPermissionsVersion = "0.35.1-alpha"
-agp = "8.6.0-alpha04"
-animationsCoreVersion = "1.10.2"
+accompanistPermissionsVersion = "0.36.0"
+agp = "8.8.2"
+animationsCoreVersion = "1.11.7"
+apiCommonVersion = "2.29.0"
 appUpdateVersion = "2.1.0"
-kotlin = "1.9.23"
-ksp = "1.9.23-1.0.19"
-coreKtx = "1.13.1"
+converterGsonVersion = "2.9.0"
+googleAuthLibraryOauth2HttpVersion = "1.30.1"
+googleCloudAiplatformVersion = "3.21.0"
+javaxImageioApiVersion = "1.0"
+kotlin = "2.0.21"
+ksp = "2.0.21-1.0.27"
+coreKtx = "1.15.0"
 junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
-lifecycleRuntimeKtx = "2.8.2"
-lifecycleViewmodelCompose = "2.8.2"
-activityCompose = "1.9.0"
-composeBom = "2024.06.00"
-generativeai = "0.8.0"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+lifecycleRuntimeKtx = "2.8.7"
+lifecycleViewmodelCompose = "2.8.7"
+activityCompose = "1.10.1"
+composeBom = "2025.02.00"
+generativeai = "0.9.0"
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
-foundationAndroidVersion = "1.6.8"
-wearCoreVersion = "1.10.2"
+foundationAndroidVersion = "1.7.8"
+protobufJavaVersion = "3.25.3"
+retrofitVersion = "2.9.0"
+wearCoreVersion = "1.11.7"
 appUpdateKtxVersion = "2.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 animations-core = { module = "io.github.raamcosta.compose-destinations:animations-core", version.ref = "animationsCoreVersion" }
+api-common = { module = "com.google.api:api-common", version.ref = "apiCommonVersion" }
 app-update = { module = "com.google.android.play:app-update", version.ref = "appUpdateVersion" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGsonVersion" }
 core = { module = "io.github.raamcosta.compose-destinations:core", version.ref = "animationsCoreVersion" }
 google-accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissionsVersion" }
+google-auth-library-credentials = { module = "com.google.auth:google-auth-library-credentials", version.ref = "googleAuthLibraryOauth2HttpVersion" }
+google-auth-library-oauth2-http = { module = "com.google.auth:google-auth-library-oauth2-http", version.ref = "googleAuthLibraryOauth2HttpVersion" }
+google-cloud-aiplatform = { module = "com.google.cloud:google-cloud-aiplatform", version.ref = "googleCloudAiplatformVersion" }
+javax-imageio-api = { module = "javax.imageio:javax.imageio-api", version.ref = "javaxImageioApiVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -42,12 +55,15 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 generativeai = { group = "com.google.ai.client.generativeai", name = "generativeai", version.ref = "generativeai" }
 androidx-foundation-android = { group = "androidx.compose.foundation", name = "foundation-android", version.ref = "foundationAndroidVersion" }
 ksp = { module = "io.github.raamcosta.compose-destinations:ksp", version.ref = "animationsCoreVersion" }
+protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protobufJavaVersion" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
 wear-core = { module = "io.github.raamcosta.compose-destinations:wear-core", version.ref = "wearCoreVersion" }
 app-update-ktx = { group = "com.google.android.play", name = "app-update-ktx", version.ref = "appUpdateKtxVersion" }
 
 [plugins]
-googleKsp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+#googleKsp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-android-libraries-mapsplatform-secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "googleAndroidLibrariesMapsplatformSecretsGradlePlugin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 

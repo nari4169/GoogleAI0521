@@ -2,6 +2,7 @@ package com.billcorea.googleai0521.compose
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,6 +21,7 @@ import androidx.navigation.NavHostController
 import com.billcorea.googleai0521.BuildConfig
 import com.billcorea.googleai0521.R
 import com.billcorea.googleai0521.destinations.BakingScreenDestination
+import com.billcorea.googleai0521.destinations.ColoringScreenDestination
 import com.billcorea.googleai0521.destinations.DirectionDestination
 import com.billcorea.googleai0521.destinations.ImageComparisonScreenDestination
 import com.billcorea.googleai0521.ui.theme.softBlue
@@ -30,11 +32,10 @@ fun TopScreen(
     navController: NavHostController,
     doInformation: () -> Unit,
 ) {
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(3.dp),
+            .padding(23.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.End
     ) {
@@ -56,6 +57,11 @@ fun TopScreen(
             },
         ) {
             Icon(painter = painterResource(R.drawable.ic_compare_24), contentDescription = "Image Comparison", tint = softBlue)
+        }
+        IconButton(onClick = {
+            navController.navigate(NaviItem.Coloring.direction.route)
+        }) {
+            Icon(painter = painterResource(R.drawable.ic_add_photo_alternate_24), contentDescription = "add_photo_alternate", tint = softBlue)
         }
         IconButton(onClick = { doInformation() }) {
             Icon(
@@ -81,4 +87,5 @@ enum class NaviItem(
 ) {
     Home(BakingScreenDestination, R.drawable.ic_panorama_24, "R.string.Order"),
     ImageComparison(ImageComparisonScreenDestination, R.drawable.ic_compare_24, "R.string.productItems"),
+    Coloring(ColoringScreenDestination, R.drawable.ic_add_photo_alternate_24, "R.string.productItems"),
 }

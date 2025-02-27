@@ -1,6 +1,9 @@
 package com.billcorea.googleai0521.ui.theme
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -73,6 +76,9 @@ private val LightColorScheme = lightColorScheme(
     scrim = light_scrim,
 )
 
+lateinit var colorScheme: ColorScheme
+
+@RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun GoogleAI0521Theme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -80,7 +86,7 @@ fun GoogleAI0521Theme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
+    colorScheme = when {
         dynamicColor -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)

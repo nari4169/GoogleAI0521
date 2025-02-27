@@ -1,16 +1,17 @@
-package com.billcorea.googleai0521.baking
+package com.billcorea.googleai0521.viewModels
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.billcorea.googleai0521.BuildConfig
 import com.billcorea.googleai0521.UiState
-import com.billcorea.googleai0521.utils.AesCryptor
+import com.billcorea.googleai0521.retrofit.ImageGenerationRequest
+import com.billcorea.googleai0521.retrofit.ImageGenerationResponse
+import com.billcorea.googleai0521.retrofit.OpenAIApiService
 import com.google.ai.client.generativeai.GenerativeModel
-import com.google.ai.client.generativeai.type.GenerationConfig
-import com.google.ai.client.generativeai.type.RequestOptions
 import com.google.ai.client.generativeai.type.content
 import com.google.ai.client.generativeai.type.generationConfig
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +19,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import kotlin.random.Random
 
 class BakingViewModel : ViewModel() {
@@ -41,7 +45,7 @@ class BakingViewModel : ViewModel() {
 
     private val generativeModel = GenerativeModel(
         modelName = "gemini-1.5-flash",
-        apiKey = AesCryptor.decrypt(BuildConfig.apiKey),
+        apiKey = BuildConfig.apiKey,
         //generationConfig = config
     )
 
@@ -49,7 +53,7 @@ class BakingViewModel : ViewModel() {
 
     private val generativeModel1 = GenerativeModel(
         modelName = "gemini-1.5-flash",
-        apiKey = AesCryptor.decrypt(BuildConfig.apiKey)
+        apiKey = BuildConfig.apiKey
     )
 
     fun sendPrompt(
@@ -137,6 +141,37 @@ class BakingViewModel : ViewModel() {
                 before2Ty[1] = ty
             }
         }
+    }
+
+    fun doGetOpenAI2Image(prompt: String) {
+
+        val request = ImageGenerationRequest(
+            model = "dall-e-3",
+            prompt = prompt,
+            n = 1,
+            size = "1024x1024"
+        )
+
+        val call = OpenAIApiService.create().generateImage(request)
+        call.enqueue(object : Callback<ImageGenerationResponse> {
+            override fun onResponse(
+                call: Call<ImageGenerationResponse>,
+                response: Response<ImageGenerationResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val imageResponse = response.body()
+                    imageResponse?.data?.forEach {
+                        Log.e("","Image URL: ${it.url}")
+                    }
+                } else {
+                    Log.e("","API Error: ${response.code()} - ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ImageGenerationResponse>, t: Throwable) {
+                t.printStackTrace()
+            }
+        })
     }
 
 }

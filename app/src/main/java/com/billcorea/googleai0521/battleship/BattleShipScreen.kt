@@ -1,7 +1,6 @@
 package com.billcorea.googleai0521.battleship
 
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.view.inputmethod.InputMethodManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,7 +22,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -42,11 +40,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.billcorea.googleai0521.R
 import com.billcorea.googleai0521.UiState
-import com.billcorea.googleai0521.baking.BakingViewModel
-import com.billcorea.googleai0521.baking.images
+import com.billcorea.googleai0521.viewModels.BakingViewModel
 import com.billcorea.googleai0521.ui.theme.light_background
-import com.billcorea.googleai0521.ui.theme.light_inverseOnSurface
-import com.billcorea.googleai0521.ui.theme.light_shadow
 import com.billcorea.googleai0521.ui.theme.softBlue
 import com.billcorea.googleai0521.ui.theme.typography
 import com.ramcosta.composedestinations.annotation.Destination
@@ -61,7 +56,7 @@ fun BattleShipScreen(bakingViewModel: BakingViewModel, function: () -> Unit) {
 
     val placeholderPrompt = stringResource(R.string.battleship_description)
     val placeholderResult = stringResource(R.string.results_placeholder)
-    var prompt by rememberSaveable { mutableStateOf(placeholderPrompt) }
+    val prompt by rememberSaveable { mutableStateOf(placeholderPrompt) }
     val prompt2 = stringResource(R.string.answerPrompt)
     var answer by rememberSaveable { mutableStateOf("I am ready") }
     var result by rememberSaveable { mutableStateOf(placeholderResult) }

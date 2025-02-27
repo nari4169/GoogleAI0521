@@ -38,4 +38,12 @@
     <string name="comparsion_description">Could you compare the left and right sides of the picture I am showing and explain the differences?</string>
     <string name="prompt_comparison" translatable="false">I will send you an image with two picture. Please look at this and give me a detailed explanation of the differences between the two picture.</string>
     <string name="update_available">Update Available</string>
+    <string name="coloring_title">Coloring</string>
+    <string name="coloring_description">Try coloring and saving the image you create next.</string>
+    <string name="prompt_color">Enter Coloring Prompt</string>
+    <string name="default_coloring_prompt">
+        Now, I am going to create an outline for a coloring activity that kids will love.
+        I would like to see the background made transparent, leaving only the outline of the drawing.
+        - Dumbledore and Snape having a conversation in the Great Hall of Hogwarts.
+    </string>
 </resources>
