@@ -70,17 +70,21 @@ fun ColoringScreen (
 ) {
     val config = LocalConfiguration.current
     val context = LocalContext.current
-    var answer by rememberSaveable { mutableStateOf(context.getString(R.string.default_coloring_prompt)) }
+    val sp = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
+    var answer by rememberSaveable { mutableStateOf(sp.getString("prompt", context.getString(R.string.default_coloring_prompt)).toString() ) }
     val uiState by bakingViewModel.uiState.collectAsState()
     val openAIUrl by bakingViewModel.openAIUrl.collectAsState()
-
     val placeholderPrompt = stringResource(R.string.coloring_description)
     val placeholderResult = stringResource(R.string.results_placeholder)
-    val prompt by rememberSaveable { mutableStateOf(placeholderPrompt) }
+    val prompt by rememberSaveable { mutableStateOf(sp.getString("prompt", placeholderPrompt).toString()) }
     val prompt2 = stringResource(R.string.answerPrompt)
 
     val screenHeight = config.screenHeightDp
     val screenWidth = config.screenWidthDp
+
+    if (openAIUrl.isEmpty()) {
+        bakingViewModel._openAIUrl.value = sp.getString("beforeUrl", "") ?: ""
+    }
 
     fun getRotation(context: Context, imagePath: String): Float {
         return try {

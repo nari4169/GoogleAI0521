@@ -201,7 +201,10 @@ class BakingViewModel : ViewModel() {
 
         Log.e("","doGetOpenAI2Image Restart ${sdf.format(sp.getLong("beforeTime", 0))}" )
 
-        if (BuildConfig.DEBUG && sp.getLong("beforeTime", 0) > System.currentTimeMillis() - 1000 * 60 * 30) {
+        if (
+            BuildConfig.DEBUG && sp.getLong("beforeTime", 0) > System.currentTimeMillis() - 1000 * 60 * 30
+            && sp.getString("prompt", "") == prompt
+            ) {
             _openAIUrl.value = sp.getString("beforeUrl", "") ?: ""
             _uiState.value = UiState.Success(_openAIUrl.value)
             return
@@ -231,6 +234,7 @@ class BakingViewModel : ViewModel() {
                         if (it.url.isNotEmpty()) {
                             _openAIUrl.value = it.url
                             val editor = sp.edit()
+                            editor.putString("prompt", prompt)
                             editor.putLong("beforeTime", System.currentTimeMillis())
                             editor.putString("beforeUrl", _openAIUrl.value)
                             editor.apply()

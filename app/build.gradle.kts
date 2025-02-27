@@ -14,8 +14,8 @@ android {
         applicationId = "com.billcorea.googleai0521"
         minSdk = 29
         targetSdk = 35
-        versionCode = 9
-        versionName = "0.0.9"
+        versionCode = 10
+        versionName = "0.1.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
