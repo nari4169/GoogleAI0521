@@ -19,9 +19,4 @@
     <string name="coloring_title">색칠하기</string>
     <string name="coloring_description">다음에 생성 되는 이미지에 색상을 칠하고 저장해 보세요.</string>
     <string name="prompt_color">색칠하기 프롬프트를 입력 하세요.</string>
-    <string name="default_coloring_prompt">
-        Now, I am going to create an outline for a coloring activity that kids will love.
-        I would like to see the background made transparent, leaving only the outline of the drawing.
-        - Dumbledore and Snape having a conversation in the Great Hall of Hogwarts.
-    </string>
 </resources>

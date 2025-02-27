@@ -10,7 +10,7 @@ import com.billcorea.googleai0521.BuildConfig
 import com.billcorea.googleai0521.UiState
 import com.billcorea.googleai0521.retrofit.ImageGenerationRequest
 import com.billcorea.googleai0521.retrofit.ImageGenerationResponse
-import com.billcorea.googleai0521.retrofit.OpenAIApiService
+import com.billcorea.googleai0521.retrofit.RetrofitAPI
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import com.google.ai.client.generativeai.type.generationConfig
@@ -32,6 +32,9 @@ class BakingViewModel : ViewModel() {
         MutableStateFlow(UiState.Initial)
     val uiState: StateFlow<UiState> =
         _uiState.asStateFlow()
+
+    val _openAIUrl : MutableStateFlow<String> = MutableStateFlow("")
+    val openAIUrl = _openAIUrl.asStateFlow()
 
     val bitmapSrc = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888)
     val bitmaps = arrayOf (bitmapSrc, bitmapSrc, bitmapSrc)
@@ -145,14 +148,18 @@ class BakingViewModel : ViewModel() {
 
     fun doGetOpenAI2Image(prompt: String) {
 
+        val defaultPrompt = "Now we will create the base picture for the coloring activity that the kids will like. The picture should always be in an anime style and since the kids will be coloring, the base picture should be simple leaving only the important parts of the image. I want to make the background transparent and leave only the base picture of the picture."
+
         val request = ImageGenerationRequest(
             model = "dall-e-3",
-            prompt = prompt,
+            prompt = String.format("%s %s", defaultPrompt, prompt),
             n = 1,
             size = "1024x1024"
         )
 
-        val call = OpenAIApiService.create().generateImage(request)
+        _uiState.value = UiState.Loading
+
+        val call = RetrofitAPI.create().generateImage(request)
         call.enqueue(object : Callback<ImageGenerationResponse> {
             override fun onResponse(
                 call: Call<ImageGenerationResponse>,
@@ -162,13 +169,20 @@ class BakingViewModel : ViewModel() {
                     val imageResponse = response.body()
                     imageResponse?.data?.forEach {
                         Log.e("","Image URL: ${it.url}")
+                        if (it.url.isNotEmpty()) {
+                            _openAIUrl.value = it.url
+                        }
                     }
+                    _uiState.value = UiState.Success(_openAIUrl.value)
                 } else {
                     Log.e("","API Error: ${response.code()} - ${response.message()}")
+                    _uiState.value = UiState.Error(response.message())
                 }
+
             }
 
             override fun onFailure(call: Call<ImageGenerationResponse>, t: Throwable) {
+                _uiState.value = UiState.Error("Error=${t.localizedMessage}")
                 t.printStackTrace()
             }
         })

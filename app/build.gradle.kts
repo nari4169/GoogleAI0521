@@ -93,4 +93,11 @@ dependencies {
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
 
+    // coil : 이미지 로딩 라이브러리
+    implementation (libs.coil.compose)
+
+    // Glide : 이미지 로딩 라이브러리
+    implementation(libs.glide)
+    ksp(libs.glide.ksp)
+
 }

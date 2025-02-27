@@ -16,7 +16,7 @@ import retrofit2.http.POST
 import java.lang.reflect.Type
 import java.util.concurrent.TimeUnit
 
-interface OpenAIApiService {
+interface RetrofitAPI {
     @Headers("Content-Type: application/json", "Authorization: Bearer ${BuildConfig.OPENAI_KEY}")
     @POST("v1/images/generations")
     fun generateImage(
@@ -52,14 +52,14 @@ interface OpenAIApiService {
             }
         }
 
-        fun create(): OpenAIApiService {
+        fun create(): RetrofitAPI {
             return Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(nullOnEmptyConverterFactory)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build()
-                .create(OpenAIApiService::class.java)
+                .create(RetrofitAPI::class.java)
         }
     }
 }

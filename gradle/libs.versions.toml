@@ -4,7 +4,9 @@ agp = "8.8.2"
 animationsCoreVersion = "1.11.7"
 apiCommonVersion = "2.29.0"
 appUpdateVersion = "2.1.0"
+coilComposeVersion = "2.7.0"
 converterGsonVersion = "2.9.0"
+glideVersion = "4.15.1"
 googleAuthLibraryOauth2HttpVersion = "1.30.1"
 googleCloudAiplatformVersion = "3.21.0"
 javaxImageioApiVersion = "1.0"
@@ -14,6 +16,7 @@ coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
+kspVersion = "4.15.1"
 lifecycleRuntimeKtx = "2.8.7"
 lifecycleViewmodelCompose = "2.8.7"
 activityCompose = "1.10.1"
@@ -31,8 +34,11 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 animations-core = { module = "io.github.raamcosta.compose-destinations:animations-core", version.ref = "animationsCoreVersion" }
 api-common = { module = "com.google.api:api-common", version.ref = "apiCommonVersion" }
 app-update = { module = "com.google.android.play:app-update", version.ref = "appUpdateVersion" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilComposeVersion" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGsonVersion" }
 core = { module = "io.github.raamcosta.compose-destinations:core", version.ref = "animationsCoreVersion" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glideVersion" }
+glide-ksp = { module = "com.github.bumptech.glide:ksp", version.ref = "kspVersion" }
 google-accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissionsVersion" }
 google-auth-library-credentials = { module = "com.google.auth:google-auth-library-credentials", version.ref = "googleAuthLibraryOauth2HttpVersion" }
 google-auth-library-oauth2-http = { module = "com.google.auth:google-auth-library-oauth2-http", version.ref = "googleAuthLibraryOauth2HttpVersion" }
