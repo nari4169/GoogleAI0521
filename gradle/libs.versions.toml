@@ -1,12 +1,13 @@
 [versions]
 accompanistPermissionsVersion = "0.36.0"
+googleCloudTranslateVersion = "2.0.0"
 agp = "8.8.2"
 animationsCoreVersion = "1.11.7"
 apiCommonVersion = "2.29.0"
 appUpdateVersion = "2.1.0"
 coilComposeVersion = "2.7.0"
 converterGsonVersion = "2.9.0"
-glideVersion = "4.15.1"
+glideVersion = "4.16.0"
 googleAuthLibraryOauth2HttpVersion = "1.30.1"
 googleCloudAiplatformVersion = "3.21.0"
 javaxImageioApiVersion = "1.0"
@@ -65,6 +66,7 @@ ksp = { module = "io.github.raamcosta.compose-destinations:ksp", version.ref = "
 protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protobufJavaVersion" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
 translate = { module = "com.google.mlkit:translate", version.ref = "translateVersion" }
+google-cloud-translate = { module = "com.google.cloud:google-cloud-translate", version.ref = "googleCloudTranslateVersion" }
 wear-core = { module = "io.github.raamcosta.compose-destinations:wear-core", version.ref = "wearCoreVersion" }
 app-update-ktx = { group = "com.google.android.play", name = "app-update-ktx", version.ref = "appUpdateKtxVersion" }
 
