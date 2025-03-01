@@ -65,8 +65,6 @@ fun DraggableCanvas1() {
     val radius = remember { 3f }
     var offset by remember { mutableStateOf(Offset.Zero) }
     val config = LocalConfiguration.current
-    val screenWidth = config.screenWidthDp.dp
-    val screenHeight = config.screenHeightDp.dp
 
     Canvas(
         modifier = Modifier

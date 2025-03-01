@@ -253,8 +253,5 @@ class BakingViewModel : ViewModel() {
                 _uiState.value = UiState.Error("Error=${e.localizedMessage}")
             }
         }
-
-
     }
-
 }

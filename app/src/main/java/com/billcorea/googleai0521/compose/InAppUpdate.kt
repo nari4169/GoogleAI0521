@@ -36,7 +36,6 @@ fun InAppUpdate(context: Context) {
 
     // Checks that the platform will allow the specified type of update.
     appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
-        val UPDATE_DATE_LIMIT = 1
 
         Log.e("", "addOnSuccessListener ...${appUpdateInfo.updateAvailability()}")
 
