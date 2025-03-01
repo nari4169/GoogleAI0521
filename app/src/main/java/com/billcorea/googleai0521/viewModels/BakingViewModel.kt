@@ -194,8 +194,8 @@ class BakingViewModel : ViewModel() {
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         _uiState.value = UiState.Loading
 
-        if (sp.getLong("beforeTime", 0) > System.currentTimeMillis() - 1000 * 60 * 30
-            && sp.getString("prompt", "") == prompt )
+        if (sp.getLong("beforeTime", 0) > System.currentTimeMillis() - 1000 * 60 * 30)
+            //&& sp.getString("prompt", "") == prompt )
         {
             _openAIUrl.value = sp.getString("beforeUrl", "") ?: ""
             _uiState.value = UiState.Success(_openAIUrl.value)
@@ -208,7 +208,7 @@ class BakingViewModel : ViewModel() {
                 val defaultPrompt = "Now we will create the base picture for the coloring activity that the kids will like. The picture should always be in an anime style and since the kids will be coloring, the base picture should be simple leaving only the important parts of the image. I want to make the background transparent and leave only the base picture of the picture."
 
                 val transText = appTranslator.translateText(prompt, "en")
-
+                Log.e("", "Translated Text: $transText")
                 val request = ImageGenerationRequest(
                     model = "dall-e-3",
                     prompt = String.format("%s %s", defaultPrompt, transText),
@@ -216,8 +216,7 @@ class BakingViewModel : ViewModel() {
                     size = "1024x1024"
                 )
 
-                val call = RetrofitAPI.create().generateImage(request)
-                call.enqueue(object : Callback<ImageGenerationResponse> {
+                RetrofitAPI.create().generateImage(request).enqueue(object : Callback<ImageGenerationResponse> {
                     override fun onResponse(
                         call: Call<ImageGenerationResponse>,
                         response: Response<ImageGenerationResponse>

@@ -1,10 +1,20 @@
 package com.billcorea.googleai0521
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.pdf.PdfDocument
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.ParcelFileDescriptor
+import android.print.PageRange
+import android.print.PrintAttributes
+import android.print.PrintDocumentAdapter
+import android.print.PrintDocumentInfo
+import android.print.PrintManager
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -19,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.billcorea.googleai0521.baking.BakingScreen
-import com.billcorea.googleai0521.viewModels.BakingViewModel
 import com.billcorea.googleai0521.battleship.BattleShipScreen
 import com.billcorea.googleai0521.colorring.ColoringScreen
 import com.billcorea.googleai0521.compose.DrawCanvasScreen
@@ -33,9 +42,12 @@ import com.billcorea.googleai0521.destinations.DrawCanvasScreenDestination
 import com.billcorea.googleai0521.destinations.ImageComparisonScreenDestination
 import com.billcorea.googleai0521.imageComparison.ImageComparisonScreen
 import com.billcorea.googleai0521.ui.theme.GoogleAI0521Theme
+import com.billcorea.googleai0521.viewModels.BakingViewModel
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
+import java.io.FileOutputStream
+import java.io.IOException
 
 class MainActivity : ComponentActivity() {
 
@@ -98,7 +110,10 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                             composable(ColoringScreenDestination) {
-                                ColoringScreen(bakingViewModel)
+                                ColoringScreen(bakingViewModel, doPrint = {
+                                    bitmap, context ->
+                                    printBitmap(bitmap, context)
+                                })
                             }
                             composable(ImageComparisonScreenDestination) {
                                 ImageComparisonScreen(
@@ -130,6 +145,66 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     }
+                }
+            }
+        }
+    }
+
+    private fun printBitmap(bitmap: Bitmap, context: Context) {
+        val printManager = getSystemService(Context.PRINT_SERVICE) as PrintManager
+        val jobName = getString(R.string.app_name) + " Document"
+        printManager.print(jobName, MyPrintDocumentAdapter(context, bitmap), null)
+    }
+
+    inner class MyPrintDocumentAdapter(private val context: Context, private val bitmap: Bitmap) :
+        PrintDocumentAdapter() {
+
+        override fun onLayout(
+            oldAttributes: PrintAttributes,
+            newAttributes: PrintAttributes,
+            cancellationSignal: android.os.CancellationSignal,
+            callback: LayoutResultCallback,
+            extras: Bundle?
+        ) {
+            if (cancellationSignal.isCanceled) {
+                callback.onLayoutCancelled()
+                return
+            }
+
+            val builder = PrintDocumentInfo.Builder("bitmap.pdf")
+                .setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT)
+                .setPageCount(PrintDocumentInfo.PAGE_COUNT_UNKNOWN)
+            val info = builder.build()
+            callback.onLayoutFinished(info, true)
+        }
+
+        override fun onWrite(
+            pages: Array<out PageRange>,
+            destination: ParcelFileDescriptor,
+            cancellationSignal: android.os.CancellationSignal,
+            callback: WriteResultCallback
+        ) {
+            var output: FileOutputStream? = null
+            val document = PdfDocument()
+            try {
+                val pageInfo = PdfDocument.PageInfo.Builder(bitmap.width, bitmap.height, 1).create()
+                val page = document.startPage(pageInfo)
+                val pageCanvas = page.canvas
+                pageCanvas.drawBitmap(bitmap, 0f, 0f, null)
+                document.finishPage(page)
+
+                output = FileOutputStream(destination.fileDescriptor)
+                document.writeTo(output)
+                callback.onWriteFinished(arrayOf(PageRange.ALL_PAGES))
+            } catch (e: Exception) {
+                Log.e("", "Error writing PDF", e)
+                callback.onWriteFailed(e.localizedMessage)
+            } finally {
+                document.close()
+                try {
+                    output?.close()
+                } catch (e: IOException) {
+                    Log.e("", "Error closing output stream", e)
                 }
             }
         }

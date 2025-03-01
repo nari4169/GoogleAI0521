@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
 import com.billcorea.googleai0521.BuildConfig
 import com.billcorea.googleai0521.R
 import com.billcorea.googleai0521.destinations.BakingScreenDestination
@@ -26,12 +27,19 @@ import com.billcorea.googleai0521.destinations.DirectionDestination
 import com.billcorea.googleai0521.destinations.ImageComparisonScreenDestination
 import com.billcorea.googleai0521.ui.theme.softBlue
 import com.billcorea.googleai0521.ui.theme.typography
+import com.ramcosta.composedestinations.utils.toDestinationsNavigator
 
 @Composable
 fun TopScreen(
     navController: NavHostController,
     doInformation: () -> Unit,
 ) {
+    val navOptions = NavOptions.Builder()
+        .setPopUpTo(0, true)
+        .setLaunchSingleTop(true)
+        .build()
+    val navigator = navController.toDestinationsNavigator()
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,23 +53,35 @@ fun TopScreen(
         IconButton(
             onClick = {
                 //doRunBaking()
-                navController.navigate(NaviItem.Home.direction.route)
+                navigator.navigate(NaviItem.Home.direction, navOptions)
             },
         ) {
-            Icon(painter = painterResource(R.drawable.ic_panorama_24), contentDescription = "Image Analogy", tint = softBlue)
+            Icon(
+                painter = painterResource(R.drawable.ic_panorama_24),
+                contentDescription = "Image Analogy",
+                tint = softBlue
+            )
         }
         IconButton(
             onClick = {
                 //doRunImageComparison()
-                navController.navigate(NaviItem.ImageComparison.direction.route)
+                navigator.navigate(NaviItem.ImageComparison.direction, navOptions)
             },
         ) {
-            Icon(painter = painterResource(R.drawable.ic_compare_24), contentDescription = "Image Comparison", tint = softBlue)
+            Icon(
+                painter = painterResource(R.drawable.ic_compare_24),
+                contentDescription = "Image Comparison",
+                tint = softBlue
+            )
         }
         IconButton(onClick = {
-            navController.navigate(NaviItem.Coloring.direction.route)
+            navigator.navigate(NaviItem.Coloring.direction, navOptions)
         }) {
-            Icon(painter = painterResource(R.drawable.ic_add_photo_alternate_24), contentDescription = "add_photo_alternate", tint = softBlue)
+            Icon(
+                painter = painterResource(R.drawable.ic_add_photo_alternate_24),
+                contentDescription = "add_photo_alternate",
+                tint = softBlue
+            )
         }
         IconButton(onClick = { doInformation() }) {
             Icon(
@@ -70,12 +90,17 @@ fun TopScreen(
                 tint = softBlue
             )
         }
-        Text(text = String.format("Ver_%s", BuildConfig.VERSION_NAME), style = typography.bodyMedium)
+        Text(
+            text = String.format("Ver_%s", BuildConfig.VERSION_NAME),
+            style = typography.bodyMedium
+        )
         Icon(
             painter = painterResource(id = R.drawable.ic_banner),
             contentDescription = "App Icon",
             tint = softBlue,
-            modifier = Modifier.width(48.dp).height(48.dp)
+            modifier = Modifier
+                .width(48.dp)
+                .height(48.dp)
         )
     }
 }
@@ -85,7 +110,19 @@ enum class NaviItem(
     val icon: Int,
     val label: String
 ) {
-    Home(BakingScreenDestination, R.drawable.ic_panorama_24, "R.string.Order"),
-    ImageComparison(ImageComparisonScreenDestination, R.drawable.ic_compare_24, "R.string.productItems"),
-    Coloring(ColoringScreenDestination, R.drawable.ic_add_photo_alternate_24, "R.string.productItems"),
+    Home(
+        BakingScreenDestination,
+        R.drawable.ic_panorama_24,
+        "R.string.Order"
+    ),
+    ImageComparison(
+        ImageComparisonScreenDestination,
+        R.drawable.ic_compare_24,
+        "R.string.productItems"
+    ),
+    Coloring(
+        ColoringScreenDestination,
+        R.drawable.ic_add_photo_alternate_24,
+        "R.string.productItems"
+    ),
 }
