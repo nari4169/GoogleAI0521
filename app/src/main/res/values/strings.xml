@@ -42,4 +42,6 @@
     <string name="coloring_description">Try coloring and saving the image you create next.</string>
     <string name="prompt_color">Enter Coloring Prompt</string>
     <string name="default_coloring_prompt" translatable="false">Dumbledore and Snape having a conversation in the Great Hall of Hogwarts.</string>
+    <string name="beforeTime">Last Request Time:%s</string>
+    <string name="coloring_description2">AI requests can only be made at 30-minute intervals.</string>
 </resources>

@@ -19,4 +19,6 @@
     <string name="coloring_title">색칠하기 밑그림</string>
     <string name="coloring_description">다음에 생성 되는 이미지에 색상을 칠하고 저장해 보세요.</string>
     <string name="prompt_color">색칠하기 프롬프트를 입력 하세요.</string>
+    <string name="beforeTime">최종요청시간:%s</string>
+    <string name="coloring_description2">AI 요청은 30분 간격 으로만 가능 합니다.</string>
 </resources>

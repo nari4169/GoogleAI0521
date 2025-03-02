@@ -12,6 +12,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -65,7 +66,9 @@ import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.LinkedList
+import java.util.Locale
 import java.util.Queue
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -77,6 +80,7 @@ fun ColoringScreen(
     val config = LocalConfiguration.current
     val context = LocalContext.current
     val sp = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
+    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
     var answer by rememberSaveable {
         mutableStateOf(
             sp.getString(
@@ -157,7 +161,11 @@ fun ColoringScreen(
                     style = typography.bodyMedium,
                     modifier = Modifier.padding(3.dp)
                 )
-
+                Text(
+                    text = stringResource(R.string.coloring_description2),
+                    style = typography.labelSmall,
+                    modifier = Modifier.padding(3.dp)
+                )
             }
         }
 
@@ -197,6 +205,8 @@ fun ColoringScreen(
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                Text(text = stringResource(R.string.beforeTime, sdf.format(sp.getLong("beforeTime", 0))), style = typography.bodyMedium)
+                Spacer(modifier = Modifier.width(8.dp))
                 IconButton(onClick = {
                     doPrint(bitmap!!, context)
                 }) {
