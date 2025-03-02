@@ -25,6 +25,7 @@ object AesCryptor {
         return Base64.getEncoder().encodeToString(encryptedBytes)
     }
 
+    @SuppressLint("GetInstance")
     fun decrypt(encryptedText: String): String {
         val secretKey = SecretKeySpec(SECRET_KEY.toByteArray(), ALGORITHM)
         val ivParameterSpec = IvParameterSpec(IV.toByteArray())

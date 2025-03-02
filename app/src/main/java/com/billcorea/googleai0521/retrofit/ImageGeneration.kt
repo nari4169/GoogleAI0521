@@ -12,5 +12,5 @@ data class ImageGenerationResponse(
 )
 
 data class ImageData(
-    val url: String
+    val imageURL: String
 )

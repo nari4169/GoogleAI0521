@@ -13,19 +13,20 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.Query
 import java.lang.reflect.Type
 import java.util.concurrent.TimeUnit
 
 interface RetrofitAPI {
-    @Headers("Content-Type: application/json", "Authorization: Bearer ${BuildConfig.OPENAI_KEY}")
-    @POST("v1/images/generations")
+
+    @POST("Google_OPENAI")
     fun generateImage(
-        @Body request: ImageGenerationRequest
-    ): Call<ImageGenerationResponse>
+        @Query("prompt") prompt: String = "",
+    ): Call<ImageData>
 
     companion object {
 
-        val baseUrl = "https://api.openai.com/"
+        val baseUrl = "https://us-central1-multichat-a2026.cloudfunctions.net/"
 
         private val client = OkHttpClient.Builder()
             .connectTimeout(1000 * 10, TimeUnit.MILLISECONDS)

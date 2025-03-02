@@ -10,9 +10,11 @@ import androidx.lifecycle.viewModelScope
 import com.billcorea.googleai0521.BuildConfig
 import com.billcorea.googleai0521.UiState
 import com.billcorea.googleai0521.retrofit.AppTranslator
+import com.billcorea.googleai0521.retrofit.ImageData
 import com.billcorea.googleai0521.retrofit.ImageGenerationRequest
 import com.billcorea.googleai0521.retrofit.ImageGenerationResponse
 import com.billcorea.googleai0521.retrofit.RetrofitAPI
+import com.billcorea.googleai0521.utils.AesCryptor
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import com.google.ai.client.generativeai.type.generationConfig
@@ -59,7 +61,7 @@ class BakingViewModel : ViewModel() {
 
     private val generativeModel = GenerativeModel(
         modelName = "gemini-1.5-flash",
-        apiKey = BuildConfig.apiKey,
+        apiKey = AesCryptor.decrypt(BuildConfig.apiKey),
         //generationConfig = config
     )
 
@@ -67,7 +69,7 @@ class BakingViewModel : ViewModel() {
 
     private val generativeModel1 = GenerativeModel(
         modelName = "gemini-1.5-flash",
-        apiKey = BuildConfig.apiKey
+        apiKey = AesCryptor.decrypt(BuildConfig.apiKey)
     )
 
     fun sendPrompt(
@@ -201,7 +203,7 @@ class BakingViewModel : ViewModel() {
             _uiState.value = UiState.Success(_openAIUrl.value)
             return
         }
-        appTranslator = AppTranslator(BuildConfig.GOOGLE_CLOUD_KEY)
+        appTranslator = AppTranslator(AesCryptor.decrypt(BuildConfig.GOOGLE_CLOUD_KEY))
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 Log.e("","doGetOpenAI2Image Request ${sdf.format(sp.getLong("beforeTime", 0))}" )
@@ -209,30 +211,21 @@ class BakingViewModel : ViewModel() {
 
                 val transText = appTranslator.translateText(prompt, "en")
                 Log.e("", "Translated Text: $transText")
-                val request = ImageGenerationRequest(
-                    model = "dall-e-3",
-                    prompt = String.format("%s %s", defaultPrompt, transText),
-                    n = 1,
-                    size = "1024x1024"
-                )
 
-                RetrofitAPI.create().generateImage(request).enqueue(object : Callback<ImageGenerationResponse> {
+                RetrofitAPI.create().generateImage(transText).enqueue(object : Callback<ImageData> {
                     override fun onResponse(
-                        call: Call<ImageGenerationResponse>,
-                        response: Response<ImageGenerationResponse>
+                        call: Call<ImageData>,
+                        response: Response<ImageData>
                     ) {
                         if (response.isSuccessful) {
-                            val imageResponse = response.body()
-                            imageResponse?.data?.forEach {
-                                Log.e("","Image URL: ${it.url}")
-                                if (it.url.isNotEmpty()) {
-                                    _openAIUrl.value = it.url
-                                    val editor = sp.edit()
-                                    editor.putString("prompt", prompt)
-                                    editor.putLong("beforeTime", System.currentTimeMillis())
-                                    editor.putString("beforeUrl", _openAIUrl.value)
-                                    editor.apply()
-                                }
+                            val imageResponse = response.body()?.imageURL
+                            if (imageResponse != null) {
+                                _openAIUrl.value = imageResponse.toString()
+                                val editor = sp.edit()
+                                editor.putString("prompt", prompt)
+                                editor.putLong("beforeTime", System.currentTimeMillis())
+                                editor.putString("beforeUrl", _openAIUrl.value)
+                                editor.apply()
                             }
                             _uiState.value = UiState.Success(_openAIUrl.value)
                         } else {
@@ -241,7 +234,7 @@ class BakingViewModel : ViewModel() {
                         }
                     }
 
-                    override fun onFailure(call: Call<ImageGenerationResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<ImageData>, t: Throwable) {
                         _uiState.value = UiState.Error("Error=${t.localizedMessage}")
                         t.printStackTrace()
                     }
